@@ -4,7 +4,7 @@
 \alias{make_inits_ipm}
 \title{Function to create iteration matrix size and initial vectors for IPM}
 \usage{
-make_inits_ipm(time_limit, n_spp, iter_matrix_dims, max_size)
+make_inits_ipm(n_spp, iter_matrix_dims, max_size)
 }
 \arguments{
 \item{n_spp}{A scalar for the number of species to simulate.}

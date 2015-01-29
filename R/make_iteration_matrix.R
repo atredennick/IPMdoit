@@ -39,11 +39,11 @@ make_K_values=function(v,u,muWG,muWS, #state variables
 #' @param W
 expand_W_matrix=function(v,u,W){
   if(dim(W)[1]!=length(u)) stop("Check size of W")
-  Nspp=dim(W)[2]
+  n_spp=dim(W)[2]
   W=as.vector(W)
   W=matrix(W,length(W),ncol=length(v))
   W=as.vector(t(W))
-  W=matrix(W,nrow=length(u)*length(v),ncol=Nspp)
+  W=matrix(W,nrow=length(u)*length(v),ncol=n_spp)
   return(W)
 }
 
@@ -63,7 +63,8 @@ expand_W_matrix=function(v,u,W){
 #' @param surv_params
 #' @param do_year
 #' @param do_spp
-make_K_matrix=function(v,muWG,muWS,rec_params,recs_per_area,growth_params,surv_params,do_year,do_spp) {
+#' @param h
+make_K_matrix=function(v,muWG,muWS,rec_params,recs_per_area,growth_params,surv_params,do_year,do_spp,h) {
   muWG=expand_W_matrix(v,v,muWG)
   muWS=expand_W_matrix(v,v,muWS)
   

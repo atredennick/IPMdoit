@@ -2,12 +2,12 @@
 # then define growth function
 
 # growth parameters
-Gpars=list(intcpt=rep(NA,Nspp),intcpt.yr=matrix(0,Nyrs,Nspp), intcpt.gr=matrix(0,6,Nspp),
-  slope=rep(NA,Nspp),slope.yr=matrix(0,Nyrs,Nspp),
-  nb=matrix(0,Nspp,Nspp),alpha=matrix(NA,Nspp,Nspp),
-  sigma2.a=rep(NA,Nspp),sigma2.b=rep(NA,Nspp))
-for(i in 1:Nspp){
-  infile=paste("growth/cache/Growth_params_",sppList[i],".csv",sep="")
+Gpars=list(intcpt=rep(NA,n_spp),intcpt.yr=matrix(0,Nyrs,n_spp), intcpt.gr=matrix(0,6,n_spp),
+  slope=rep(NA,n_spp),slope.yr=matrix(0,Nyrs,n_spp),
+  nb=matrix(0,n_spp,n_spp),alpha=matrix(NA,n_spp,n_spp),
+  sigma2.a=rep(NA,n_spp),sigma2.b=rep(NA,n_spp))
+for(i in 1:n_spp){
+  infile <- paste("../extdata/Growth_params_",spp_list[i],".csv",sep="")
   Gdata=read.csv(infile)
   Gpars$intcpt[i]=Gdata$Intercept[1]
   tmp=which(names(Gdata)=="Group")
@@ -18,18 +18,10 @@ for(i in 1:Nspp){
   tmp=which(names(Gdata)=="logarea.t0.yr")
   if(length(tmp)>0) Gpars$slope.yr[,i]=Gdata[,tmp]
   # get competition coefficients
-  tmp=paste("crowd",1:length(sppList),sep="")
+  tmp=paste("crowd",1:length(spp_list),sep="")
   tmp=which(is.element(names(Gdata),tmp))
   if(length(tmp)>0) Gpars$nb[i,]=as.numeric(Gdata[1,tmp])
-  # get competition X size interactions coefficients
-#   tmp=paste("logarea.t0.W",1:length(sppList),sep="")
-#   tmp=which(is.element(names(Gdata),tmp))
-#   if(length(tmp)>0) Gpars$slopeXnb[i,]=as.numeric(Gdata[1,tmp])   
-  # get yr random effects on competition
-#   tmp=paste("W",1:length(sppList),".yr",sep="")
-#   tmp=which(is.element(names(Gdata),tmp))
-#   if(length(tmp)>0) Gpars$nb.yr[i,,]=as.matrix(Gdata[,tmp])
-  Gpars$alpha[i,]=Gdata$alpha[1:length(sppList)]
+  Gpars$alpha[i,]=Gdata$alpha[1:length(spp_list)]
   Gpars$sigma2.a[i]=Gdata$sigma.a[1]
   Gpars$sigma2.b[i]=Gdata$sigma.b[1]
 } # next i

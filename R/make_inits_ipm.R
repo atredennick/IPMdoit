@@ -21,7 +21,7 @@
 #'                 maximum size allowable for a genet from each species.
 #' @return Returns a list of matrices and vectors for IPM simulating.
 
-make_inits_ipm <- function(time_limit, n_spp, iter_matrix_dims, max_size){
+make_inits_ipm <- function(n_spp, iter_matrix_dims, max_size){
   v=v.r=b.r=expv=Cr=WmatG=WmatS=list(n_spp)
   h=r.L=r.U=Ctot=numeric(n_spp)
   for(i in 1:n_spp){
@@ -50,8 +50,10 @@ make_inits_ipm <- function(time_limit, n_spp, iter_matrix_dims, max_size){
   } # next species
   rm(i)
   tmp=range(v.r)
-  size.range=seq(tmp[1],tmp[2],length=50) # range across all possible sizes
-  return(list(v=v, u=u, L=L, U=U, h=h, WmatG=WmatG, WmatS=WmatS, expv=expv, b=b))
+  size_range=seq(tmp[1],tmp[2],length=50) # range across all possible sizes
+  return(list(v=v, L=L, U=U, h=h, WmatG=WmatG, WmatS=WmatS, expv=expv, 
+              b=b, size_range=size_range, v.r=v.r, b.r=b.r, Ctot=Ctot, Cr=Cr,
+              r.U=r.U))
 }
 
 

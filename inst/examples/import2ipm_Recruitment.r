@@ -1,12 +1,12 @@
 
 # import parameters
 # recruitment parameters
-Rpars=list(intcpt.mu=rep(0,Nspp),intcpt.yr=matrix(0,Nyrs,Nspp),intcpt.tau=rep(100,Nspp),
-  intcpt.gr=matrix(NA,6,Nspp),g.tau=rep(NA,Nspp),
-  dd=matrix(NA,Nspp,Nspp),theta=rep(NA,Nspp),sizeMean=rep(NA,Nspp),sizeVar=rep(NA,Nspp),
+Rpars=list(intcpt.mu=rep(0,n_spp),intcpt.yr=matrix(0,Nyrs,n_spp),intcpt.tau=rep(100,n_spp),
+  intcpt.gr=matrix(NA,6,n_spp),g.tau=rep(NA,n_spp),
+  dd=matrix(NA,n_spp,n_spp),theta=rep(NA,n_spp),sizeMean=rep(NA,n_spp),sizeVar=rep(NA,n_spp),
   recSizes=list(1))
 
- infile="recruitment/recruit_params_GnoG.csv"    
+ infile <- "../extdata/recruit_params_GnoG.csv"  
  Rdata=read.csv(infile)
  # subset out non-essential parameters
  tmp=c(grep("lambda",row.names(Rdata)),grep("deviance",row.names(Rdata)),
@@ -14,8 +14,8 @@ Rpars=list(intcpt.mu=rep(0,Nspp),intcpt.yr=matrix(0,Nyrs,Nspp),intcpt.tau=rep(10
  Rdata=Rdata[-tmp,]
  tmp=paste("Rpars$",row.names(Rdata),"<-",Rdata[,1],sep="")
  eval(parse(n=dim(Rdata)[1],text=tmp))
- for(i in 1:Nspp){
-   infile=paste("../speciesData/",sppList[i],"/recSize.csv",sep="")
+ for(i in 1:n_spp){
+   infile=paste("../extdata/recSize_",spp_list[i],".csv",sep="")
    recSize=read.csv(infile)
    Rpars$sizeMean[i]=mean(log(recSize$area))
    Rpars$sizeVar[i]=var(log(recSize$area))
@@ -27,7 +27,7 @@ rm(Rdata)
 # define recruitment function
 #number of recruits per area produced 
 # cover is stored in absolute area (cm^2)
-get.rpa=function(Rpars,cover,doYear){
+get_rpa=function(Rpars,cover,doYear){
     # cover is in m^2 per m^2; convert to % scale:
     cover2=cover*100
     # calculate recruits

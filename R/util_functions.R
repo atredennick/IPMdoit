@@ -13,7 +13,7 @@
 #' @param h
 #' @param A Area of the quadrat (scalar)
 sum_cover=function(v,nt,h,A){
-  out=lapply(1:Nspp,function(i,v,nt,h,A) h[i]*sum(nt[[i]]*exp(v[[i]]))/A,v=v,nt=nt,h=h,A=A)
+  out=lapply(1:n_spp,function(i,v,nt,h,A) h[i]*sum(nt[[i]]*exp(v[[i]]))/A,v=v,nt=nt,h=h,A=A)
   return(unlist(out))
 } 
 
@@ -24,7 +24,7 @@ sum_cover=function(v,nt,h,A){
 #' @param nt The population vector.
 #' @param h
 sum_N=function(nt,h){
-  out=lapply(1:Nspp,function(i,nt,h) h[i]*sum(nt[[i]]),nt=nt,h=h)
+  out=lapply(1:n_spp,function(i,nt,h) h[i]*sum(nt[[i]]),nt=nt,h=h)
   return(unlist(out))
 }
 
@@ -37,6 +37,6 @@ sum_N=function(nt,h){
 #' @param Xbar
 #' @param N Density vector for each size class.
 varN=function(v,nt,h,Xbar,N){
-  out=lapply(1:Nspp,function(i,v,nt,h,Xbar,N) h[i]*sum((exp(v[[i]]-Xbar[i])^2)*nt[[i]])/N[i],v=v,nt=nt,h=h,Xbar=Xbar,N=N)
+  out=lapply(1:n_spp,function(i,v,nt,h,Xbar,N) h[i]*sum((exp(v[[i]]-Xbar[i])^2)*nt[[i]])/N[i],v=v,nt=nt,h=h,Xbar=Xbar,N=N)
   return(unlist(out))
 }  

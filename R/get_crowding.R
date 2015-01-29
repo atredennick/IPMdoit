@@ -9,7 +9,10 @@
 #' @param r
 #' @param i
 #' @param j
-wrijG=function(r,i,j){
+#' @param r.U
+#' @param Cr
+#' @param Ctot
+wrijG=function(r,i,j,r.U,Cr,Ctot){
   return(2*pi*integrate(function(z) z*exp(-alphaG[i,j]*(z^2))*Cr[[j]](z-r),r,r+r.U[j])$value+
            pi*Ctot[j]*exp(-alphaG[i,j]*((r+r.U[j])^2))/alphaG[i,j]);   
 }
@@ -20,7 +23,10 @@ WrijG=Vectorize(wrijG,vectorize.args="r")
 #' @param r
 #' @param i
 #' @param j
-wrijS=function(r,i,j){
+#' @param r.U
+#' @param Cr
+#' @param Ctot
+wrijS=function(r,i,j,r.U,Cr,Ctot){
   return(2*pi*integrate(function(z) z*exp(-alphaS[i,j]*(z^2))*Cr[[j]](z-r),r,r+r.U[j])$value+
            pi*Ctot[j]*exp(-alphaS[i,j]*((r+r.U[j])^2))/alphaS[i,j]);   
 }

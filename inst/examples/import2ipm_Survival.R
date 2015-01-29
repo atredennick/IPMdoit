@@ -3,15 +3,15 @@
 
 # survival parameters
 # survival parameters
-Spars=list(intcpt=rep(NA,Nspp),intcpt.yr=matrix(0,Nyrs,Nspp),
-           slope=rep(NA,Nspp),slope.yr=matrix(0,Nyrs,Nspp),
-           nb=matrix(0,Nspp,Nspp),
-           alpha=matrix(NA,Nspp,Nspp))
+Spars=list(intcpt=rep(NA,n_spp),intcpt.yr=matrix(0,Nyrs,n_spp),
+           slope=rep(NA,n_spp),slope.yr=matrix(0,Nyrs,n_spp),
+           nb=matrix(0,n_spp,n_spp),
+           alpha=matrix(NA,n_spp,n_spp))
 
-# nb.yr=array(0,dim=c(Nspp,Nyrs,Nspp)),
+# nb.yr=array(0,dim=c(n_spp,Nyrs,n_spp)),
 
-for(i in 1:Nspp){
-  infile=paste("./survival/Surv_params_",sppList[i],".csv",sep="")
+for(i in 1:n_spp){
+  infile=infile <- paste("../extdata/Surv_params_",spp_list[i],".csv",sep="")
   Sdata=read.csv(infile)
   
   Spars$intcpt[i]=Sdata$Intercept[1]
@@ -29,28 +29,28 @@ for(i in 1:Nspp){
   if(length(tmp)>0) Spars$slope.yr[,i]=Sdata[,tmp]
   
   # get competition coefficients
-#   tmp=paste("crowd",1:length(sppList),sep="")
+#   tmp=paste("crowd",1:length(spp_list),sep="")
 #   tmp=which(is.element(names(Sdata),tmp))
 #   if(length(tmp)>0) Spars$nb[i,]=as.numeric(Sdata[1,tmp])
   # get crowding coefficients
 #     Spars$nb[i]=as.numeric(Sdata$crowd)[1]
-    tmp=paste("crowd",1:length(sppList),sep="")
+    tmp=paste("crowd",1:length(spp_list),sep="")
     tmp=which(is.element(names(Sdata),tmp))
     if(length(tmp)>0) Spars$nb[i,]=as.numeric(Sdata[1,tmp])
   # get crowd X size interaction
 #     Spars$slopeXnb[i]=as.numeric(Sdata$logarea.crowd)[1]
   
 #   # get competition X size interactions coefficients
-#   tmp=paste("logarea.W",1:length(sppList),sep="")
+#   tmp=paste("logarea.W",1:length(spp_list),sep="")
 #   tmp=which(is.element(names(Sdata),tmp))
 #   if(length(tmp)>0) Spars$slopeXnb[i,]=as.numeric(Sdata[1,tmp])  
   
 #   # get yr random effects on competition
-#   tmp=paste("W",1:length(sppList),".yr",sep="")
+#   tmp=paste("W",1:length(spp_list),".yr",sep="")
 #   tmp=which(is.element(names(Sdata),tmp))
 #   if(length(tmp)>0) Spars$nb.yr[i,,]=as.matrix(Sdata[,tmp])
   
-  Spars$alpha[i,]=Sdata$alpha[1:length(sppList)]
+  Spars$alpha[i,]=Sdata$alpha[1:length(spp_list)]
 } # next i
 yrList=Sdata$year
 rm(Sdata)
