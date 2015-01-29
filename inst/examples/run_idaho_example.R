@@ -144,7 +144,7 @@ for (t in 2:(tlimit)){
   covSave[t,]=sum_cover(inits$v,nt,inits$h,A)  # store the cover as cm^2/cm^2
   Nsave[t,]=sum_N(nt,inits$h)
   
-  print(t)
+  print(paste("Done with year", t, "of", tlimit))
   flush.console()
   if(sum(is.na(nt))>0) browser()  
 } # next time step
