@@ -75,6 +75,7 @@ Nsave[1,] <- sum_N(nt,inits$h)
 yrSave <- rep(NA,tlimit)
 
 # Loop through simulation times and iterate population
+pb <- txtProgressBar(min=2, max=tlimit, char="+", style=3, width=65)
 for (t in 2:(tlimit)){
   #draw from observed year effects
   allYrs <- c(1:Nyrs)
@@ -144,7 +145,8 @@ for (t in 2:(tlimit)){
   covSave[t,]=sum_cover(inits$v,nt,inits$h,A)  # store the cover as cm^2/cm^2
   Nsave[t,]=sum_N(nt,inits$h)
   
-  print(paste("Done with year", t, "of", tlimit))
+#   print(paste("Done with year", t, "of", tlimit))
+  setTxtProgressBar(pb, t)
   flush.console()
   if(sum(is.na(nt))>0) browser()  
 } # next time step
