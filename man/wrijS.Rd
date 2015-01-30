@@ -5,7 +5,7 @@
 \alias{wrijS}
 \title{Function to calculate size-dependent crowding for survival, assuming no overlap}
 \usage{
-wrijS(r, i, j)
+wrijS(r, i, j, r.U, Cr, Ctot)
 }
 \arguments{
 \item{r}{}
@@ -13,6 +13,12 @@ wrijS(r, i, j)
 \item{i}{}
 
 \item{j}{}
+
+\item{r.U}{}
+
+\item{Cr}{}
+
+\item{Ctot}{}
 }
 \description{
 Function to calculate size-dependent crowding for survival, assuming no overlap

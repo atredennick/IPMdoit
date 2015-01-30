@@ -24,12 +24,13 @@
 #' @param expv
 #' @param r.U
 #' @param v.r
+#' @param v
 crowd_overlap <- function(A, N, vt, h, alphaG, alphaS, WmatG, WmatS,
-                          n_spp, Ctot, Cr, b.r, expv, r.U, v.r){
+                          n_spp, Ctot, Cr, b.r, expv, r.U, v.r, v){
   for(ii in 1:n_spp){ 
     # first do all overlap W's
     Xbar=cover*A/N       # multiply by A to get cover back in cm^2
-    varX=varN(inits$v,nt,inits$h,Xbar,N) 
+    varX=varN(v,nt,h,Xbar,N) 
     
     muWG = pi*Xbar*N/(A*alphaG[ii,])
     muWS = pi*Xbar*N/(A*alphaS[ii,])
@@ -37,15 +38,15 @@ crowd_overlap <- function(A, N, vt, h, alphaG, alphaS, WmatG, WmatS,
     muWG[is.na(muWG)]=0
     muWS[is.na(muWS)]=0
     
-    inits$WmatG[[ii]]=matrix(muWG,nrow=length(inits$v[[ii]]),ncol=n_spp,byrow=T)
-    inits$WmatS[[ii]]=matrix(muWS,nrow=length(inits$v[[ii]]),ncol=n_spp,byrow=T)
+    WmatG[[ii]]=matrix(muWG,nrow=length(v[[ii]]),ncol=n_spp,byrow=T)
+    WmatS[[ii]]=matrix(muWS,nrow=length(v[[ii]]),ncol=n_spp,byrow=T)
     
     # now do conspecific no overlap W
-    inits$Ctot[ii]=inits$h[ii]*sum(inits$expv[[ii]]*nt[[ii]]) 
-    inits$Cr[[ii]]=splinefun(inits$b.r[[ii]],inits$h[ii]*c(0,cumsum(inits$expv[[ii]]*nt[[ii]])),method="natural")
+    Ctot[ii]=h[ii]*sum(expv[[ii]]*nt[[ii]]) 
+    Cr[[ii]]=splinefun(b.r[[ii]],h[ii]*c(0,cumsum(expv[[ii]]*nt[[ii]])),method="natural")
     
-    inits$WmatG[[ii]][,ii]=WrijG(inits$v.r[[ii]],ii,ii,inits$r.U,inits$Cr,inits$Ctot)/A
-    inits$WmatS[[ii]][,ii]=WrijS(inits$v.r[[ii]],ii,ii,inits$r.U,inits$Cr,inits$Ctot)/A
+    WmatG[[ii]][,ii]=WrijG(v.r[[ii]],ii,ii,r.U,Cr,Ctot)/A
+    WmatS[[ii]][,ii]=WrijS(v.r[[ii]],ii,ii,r.U,Cr,Ctot)/A
   }
   return(list(WmatG=WmatG, WmatS=WmatS))
 }
@@ -69,8 +70,9 @@ crowd_overlap <- function(A, N, vt, h, alphaG, alphaS, WmatG, WmatS,
 #' @param expv
 #' @param r.U
 #' @param v.r
+#' @param size.range
 crowd_no_overlap <- function(A, vt, h, alphaG, alphaS, WmatG, WmatS,
-                             n_spp, Ctot, Cr, b.r, expv, r.U, v.r){
+                             n_spp, Ctot, Cr, b.r, expv, r.U, v.r, size.range){
   for(ii in 1:n_spp){
     Ctot[ii]=h[ii]*sum(expv[[ii]]*nt[[ii]]) 
     Cr[[ii]]=splinefun(b.r[[ii]],h[ii]*c(0,cumsum(expv[[ii]]*nt[[ii]])),method="natural") 
@@ -86,4 +88,4 @@ crowd_no_overlap <- function(A, vt, h, alphaG, alphaS, WmatG, WmatS,
     }
   }
   return(list(WmatG=WmatG, WmatS=WmatS))
-} # end NoOverlap if
+}

@@ -22,8 +22,8 @@ library(gridExtra)
 #### Set up global parameters ---------------------
 ####
 A <- 10000 #Area of 100cm x 100cm quadrat
-tlimit <- 1000  ## number of years to simulate
-burn_in <- 500    # years to cut before calculations
+tlimit <- 100  ## number of years to simulate
+burn_in <- 50    # years to cut before calculations
 spp_list <- c("ARTR","HECO","POSE","PSSP")
 iter_matrix_dims <- c(75,75,50,50)     #Set matrix dimension for each species
 max_size <- c(3000,202,260,225)    # in cm^2: PSSP=225 HECO=202  POSE=260  ARTR=3000  # minSize=0.2  cm^2
@@ -90,51 +90,19 @@ for (t in 2:(tlimit)){
   #calculate size-specific crowding
   alphaG <- Gpars$alpha 
   alphaS <- Spars$alpha 
-  
   if(NoOverlap_Inter==F){#T: heterospecific genets cannot overlap; F: overlap allowed
-    for(ii in 1:n_spp){ 
-      # first do all overlap W's
-      Xbar=cover*A/N       # multiply by A to get cover back in cm^2
-      varX=varN(inits$v,nt,inits$h,Xbar,N) 
-      
-      muWG = pi*Xbar*N/(A*alphaG[ii,])
-      muWS = pi*Xbar*N/(A*alphaS[ii,])
-      
-      muWG[is.na(muWG)]=0
-      muWS[is.na(muWS)]=0
-      
-      inits$WmatG[[ii]]=matrix(muWG,nrow=length(inits$v[[ii]]),ncol=n_spp,byrow=T)
-      inits$WmatS[[ii]]=matrix(muWS,nrow=length(inits$v[[ii]]),ncol=n_spp,byrow=T)
-      
-      # now do conspecific no overlap W
-      inits$Ctot[ii]=inits$h[ii]*sum(inits$expv[[ii]]*nt[[ii]]) 
-      inits$Cr[[ii]]=splinefun(inits$b.r[[ii]],inits$h[ii]*c(0,cumsum(inits$expv[[ii]]*nt[[ii]])),method="natural")
-      
-      inits$WmatG[[ii]][,ii]=WrijG(inits$v.r[[ii]],ii,ii,inits$r.U,inits$Cr,inits$Ctot)/A
-      inits$WmatS[[ii]][,ii]=WrijS(inits$v.r[[ii]],ii,ii,inits$r.U,inits$Cr,inits$Ctot)/A
-    }
+    crowd_list <- crowd_overlap(A, N, inits$vt, inits$h, alphaG, alphaS, inits$WmatG, inits$WmatS,
+                                n_spp, inits$Ctot, inits$Cr, inits$b.r, inits$expv, inits$r.U, inits$v.r, inits$v)
   }else{
-    for(ii in 1:n_spp){
-      inits$Ctot[ii]=inits$h[ii]*sum(inits$expv[[ii]]*nt[[ii]]) 
-      inits$Cr[[ii]]=splinefun(inits$b.r[[ii]],inits$h[ii]*c(0,cumsum(inits$expv[[ii]]*nt[[ii]])),method="natural") 
-    }
-    for(jj in 1:n_spp){ 
-      
-      WfunG=splinefun(inits$size.range,WrijG(inits$size.range,jj,jj,inits$r.U,inits$Cr,inits$Ctot))
-      WfunS=splinefun(inits$size.range,WrijS(inits$size.range,jj,jj,inits$r.U,inits$Cr,inits$Ctot))
-      
-      for(ii in 1:n_spp) { 
-        inits$WmatG[[ii]][,jj]=WfunG(inits$v.r[[ii]])/A 
-        inits$WmatS[[ii]][,jj]=WfunS(inits$v.r[[ii]])/A 
-      }
-    }
-    
+    crowd_list <- crowd_no_overlap(A, inits$vt, inits$h, alphaG, alphaS, inits$WmatG, inits$WmatS,
+                                   n_spp, inits$Ctot, inits$Cr, inits$b.r, inits$expv, inits$r.U, inits$v.r,
+                                   inits$size_range)
   } # end NoOverlap if
   
   for(doSpp in 1:n_spp){  
     if(cover[doSpp]>0){    
       # make kernels and project
-      K_matrix=make_K_matrix(inits$v[[doSpp]],inits$WmatG[[doSpp]],inits$WmatS[[doSpp]],
+      K_matrix=make_K_matrix(inits$v[[doSpp]],crowd_list$WmatG[[doSpp]],crowd_list$WmatS[[doSpp]],
                              Rpars,recs_per_area,Gpars,Spars,doYear,doSpp,inits$h)	
       new.nt[[doSpp]]=K_matrix%*%nt[[doSpp]] 
       sizeSave[[doSpp]][,t]=new.nt[[doSpp]]/sum(new.nt[[doSpp]])  
@@ -145,7 +113,6 @@ for (t in 2:(tlimit)){
   covSave[t,]=sum_cover(inits$v,nt,inits$h,A)  # store the cover as cm^2/cm^2
   Nsave[t,]=sum_N(nt,inits$h)
   
-#   print(paste("Done with year", t, "of", tlimit))
   setTxtProgressBar(pb, t)
   flush.console()
   if(sum(is.na(nt))>0) browser()  

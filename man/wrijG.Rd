@@ -5,7 +5,7 @@
 \alias{wrijG}
 \title{Function to calculate size-dependent crowding for growth, assuming no overlap}
 \usage{
-wrijG(r, i, j)
+wrijG(r, i, j, r.U, Cr, Ctot)
 }
 \arguments{
 \item{r}{}
@@ -13,6 +13,12 @@ wrijG(r, i, j)
 \item{i}{}
 
 \item{j}{}
+
+\item{r.U}{}
+
+\item{Cr}{}
+
+\item{Ctot}{}
 }
 \description{
 Function to calculate size-dependent crowding for growth, assuming no overlap
