@@ -5,7 +5,7 @@
 \title{Calculate crowding with genet overlap not allowed}
 \usage{
 crowd_no_overlap(A, vt, h, alphaG, alphaS, WmatG, WmatS, n_spp, Ctot, Cr, b.r,
-  expv, r.U, v.r)
+  expv, r.U, v.r, size.range)
 }
 \arguments{
 \item{A}{Area of the quadrat.}
@@ -33,6 +33,8 @@ crowd_no_overlap(A, vt, h, alphaG, alphaS, WmatG, WmatS, n_spp, Ctot, Cr, b.r,
 \item{r.U}{}
 
 \item{v.r}{}
+
+\item{size.range}{}
 
 \item{nt}{Current population vector.}
 }
