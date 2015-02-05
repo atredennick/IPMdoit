@@ -10,6 +10,7 @@
 ~%2FRepos%2FDiversity_Stability%2FPopModels%2FvitalRateRegressions%2Fget_vital_rate_params.R="A44EF044"
 ~%2FRepos%2FIPMdoit%2FR%2Festimate_crowding.R="3F152CC5"
 ~%2FRepos%2FIPMdoit%2FR%2Fget_crowding.R="516D44F9"
+~%2FRepos%2FIPMdoit%2FR%2Fget_crowding_ss.R="F93CC4BC"
 ~%2FRepos%2FIPMdoit%2FR%2Fmake_inits_ipm.R="CD4BB994"
 ~%2FRepos%2FIPMdoit%2FR%2Fmake_inits_ipm_ss.R="90B717D0"
 ~%2FRepos%2FIPMdoit%2FR%2Fmake_iteration_matrix.R="2C0B83A6"
