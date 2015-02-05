@@ -4,6 +4,18 @@
 #### Andrew Tredennick: atredenn@gmail.com
 #### Date: 1-29-2015
 
+###FROM CHENGJIN'S CODE
+wriG=function(r){
+  return(2*pi*integrate(function(z) z*exp(-alphaG*(z^2))*Cr(z-r),r,r+r.U)$value+
+           pi*Ctot*exp(-alphaG*((r+r.U)^2))/alphaG)
+}
+WriG=Vectorize(wriG,vectorize.args="r") #Wri, and wri
+
+wriS=function(r){
+  return(2*pi*integrate(function(z) z*exp(-alphaS*(z^2))*Cr(z-r),r,r+r.U)$value+
+           pi*Ctot*exp(-alphaS*((r+r.U)^2))/alphaS)
+}
+WriS=Vectorize(wriS,vectorize.args="r") #Wri, and wri
 
 
 
