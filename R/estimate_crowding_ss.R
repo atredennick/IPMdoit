@@ -6,12 +6,12 @@
 #### 1-30-2015
 
 ####
-#### MULTI-SPECIES VERSIONS
+#### SINGLE SPECIES VERSIONS
 ####
 
 #' Calculate crowding with genet overlap allowed
 #' @author Andrew Tredennick
-#' @aliases crowd_overlap
+#' @aliases crowd_overlap_ss
 #' @param A Area of the quadrat.
 #' @param N Current population density vector.
 #' @param v
@@ -29,15 +29,15 @@
 #' @param r.U
 #' @param v.r
 #' @param v
-crowd_overlap <- function(A, N, vt, h, alphaG, alphaS, WmatG, WmatS,
-                          n_spp, Ctot, Cr, b.r, expv, r.U, v.r, v){
+crowd_overlap_ss <- function(A, N, vt, h, alphaG, alphaS, WmatG, WmatS,
+                             n_spp, Ctot, Cr, b.r, expv, r.U, v.r, v){
   for(ii in 1:n_spp){ 
     # first do all overlap W's
     Xbar=cover*A/N       # multiply by A to get cover back in cm^2
     varX=varN(v,nt,h,Xbar,N) 
     
-    muWG = pi*Xbar*N/(A*alphaG[ii,])
-    muWS = pi*Xbar*N/(A*alphaS[ii,])
+    muWG = pi*Xbar*N/(A*alphaG[ii])
+    muWS = pi*Xbar*N/(A*alphaS[ii])
     
     muWG[is.na(muWG)]=0
     muWS[is.na(muWS)]=0
@@ -59,7 +59,7 @@ crowd_overlap <- function(A, N, vt, h, alphaG, alphaS, WmatG, WmatS,
 
 #' Calculate crowding with genet overlap not allowed
 #' @author Andrew Tredennick
-#' @aliases crowd_no_overlap
+#' @aliases crowd_no_overlap_ss
 #' @param A Area of the quadrat.
 #' @param nt Current population vector.
 #' @param h
@@ -75,8 +75,8 @@ crowd_overlap <- function(A, N, vt, h, alphaG, alphaS, WmatG, WmatS,
 #' @param r.U
 #' @param v.r
 #' @param size.range
-crowd_no_overlap <- function(A, vt, h, alphaG, alphaS, WmatG, WmatS,
-                             n_spp, Ctot, Cr, b.r, expv, r.U, v.r, size.range){
+crowd_no_overlap_ss <- function(A, vt, h, alphaG, alphaS, WmatG, WmatS,
+                                n_spp, Ctot, Cr, b.r, expv, r.U, v.r, size.range){
   for(ii in 1:n_spp){
     Ctot[ii]=h[ii]*sum(expv[[ii]]*nt[[ii]]) 
     Cr[[ii]]=splinefun(b.r[[ii]],h[ii]*c(0,cumsum(expv[[ii]]*nt[[ii]])),method="natural") 
