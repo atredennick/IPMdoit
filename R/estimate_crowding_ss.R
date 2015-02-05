@@ -49,8 +49,8 @@ crowd_overlap_ss <- function(A, N, vt, h, alphaG, alphaS, WmatG, WmatS,
     Ctot[ii]=h[ii]*sum(expv[[ii]]*nt[[ii]]) 
     Cr[[ii]]=splinefun(b.r[[ii]],h[ii]*c(0,cumsum(expv[[ii]]*nt[[ii]])),method="natural")
     
-    WmatG[[ii]][,ii]=WrijG(v.r[[ii]],ii,ii,r.U,Cr,Ctot)/A
-    WmatS[[ii]][,ii]=WrijS(v.r[[ii]],ii,ii,r.U,Cr,Ctot)/A
+    WmatG[[ii]]=WriG_ss(v.r[[ii]],ii,r.U,Cr,Ctot)/A
+    WmatS[[ii]]=WriS_ss(v.r[[ii]],ii,r.U,Cr,Ctot)/A
   }
   return(list(WmatG=WmatG, WmatS=WmatS))
 }
@@ -83,12 +83,12 @@ crowd_no_overlap_ss <- function(A, vt, h, alphaG, alphaS, WmatG, WmatS,
   }
   for(jj in 1:n_spp){ 
     
-    WfunG=splinefun(size.range,WrijG(size.range,jj,jj,r.U,Cr,Ctot))
-    WfunS=splinefun(size.range,WrijS(size.range,jj,jj,r.U,Cr,Ctot))
+    WfunG=splinefun(size.range,WriG_ss(size.range,jj,r.U,Cr,Ctot))
+    WfunS=splinefun(size.range,WriS_ss(size.range,jj,r.U,Cr,Ctot))
     
     for(ii in 1:n_spp) { 
-      WmatG[[ii]][,jj]=WfunG(v.r[[ii]])/A 
-      WmatS[[ii]][,jj]=WfunS(v.r[[ii]])/A 
+      WmatG[[ii]]=WfunG(v.r[[ii]])/A 
+      WmatS[[ii]]=WfunS(v.r[[ii]])/A 
     }
   }
   return(list(WmatG=WmatG, WmatS=WmatS))

@@ -71,3 +71,29 @@ make_K_matrix=function(v,muWG,muWS,rec_params,recs_per_area,growth_params,surv_p
   K.matrix=outer(v,v,make_K_values,muWG,muWS,rec_params,recs_per_area,growth_params,surv_params,do_year,do_spp)
   return(h[do_spp]*K.matrix)
 }
+
+
+
+####
+#### Function to make iteration matrix based only on mean crowding ----------
+####
+#' Make iteration matrix based only on mean crowding: single species
+#' 
+#' @aliases make_K_matrix_ss
+#' @author Andrew Tredennick
+#' @param v
+#' @param muWG
+#' @param muWS
+#' @param rec_params
+#' @param recs_per_area
+#' @param growth_params
+#' @param surv_params
+#' @param do_year
+#' @param do_spp
+#' @param h
+make_K_matrix_ss=function(v,muWG,muWS,rec_params,recs_per_area,growth_params,surv_params,do_year,do_spp,h) {  
+  muWG=rep(muWG,length(v))
+  muWS=rep(muWS,length(v))
+  K.matrix=outer(v,v,make_K_values,muWG,muWS,rec_params,recs_per_area,growth_params,surv_params,do_year,do_spp)
+  return(h[do_spp]*K.matrix)
+}

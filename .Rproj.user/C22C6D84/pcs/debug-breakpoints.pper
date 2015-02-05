@@ -1,6 +1,21 @@
 {
     "debugBreakpointsState" : {
         "breakpoints" : [
+            {
+                "editor_line_number" : 95,
+                "editor_state" : 1,
+                "function_name" : "make_K_matrix_ss",
+                "function_steps" : "2",
+                "id" : 3,
+                "is_package_breakpoint" : true,
+                "is_pending_debug_completion" : false,
+                "line_number" : 95,
+                "needs_updated_steps" : false,
+                "package_name" : "IPMdoit",
+                "path" : "~/Repos/IPMdoit/R/make_iteration_matrix.R",
+                "state" : 1,
+                "type" : 0
+            }
         ]
     }
 }
