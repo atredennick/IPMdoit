@@ -22,9 +22,25 @@
 #' @param surv_params
 #' @param do_year
 #' @param do_spp
+#' @param demographic_stochasticity
+
+
 make_K_values=function(v,u,muWG,muWS, #state variables
-                       rec_params,recs_per_area,growth_params,surv_params,do_year,do_spp){  #growth arguments
-  f(v,u,rec_params,recs_per_area,do_spp)+S(u,muWS,surv_params,do_year,do_spp)*G(v,u,muWG,growth_params,do_year,do_spp) 
+                       rec_params,recs_per_area,growth_params,surv_params,
+                       do_year,do_spp){  #growth arguments
+  fecundity <- f(v,u,rec_params,recs_per_area,do_spp)
+  survival <- S(u,muWS,surv_params,do_year,do_spp)
+  growth <- G(v,u,muWG,growth_params,do_year,do_spp)
+  fecundity+survival*growth
+}
+
+make_K_values_demostoch=function(v,u,muWG,muWS, #state variables
+                                 rec_params,recs_per_area,growth_params,
+                                 surv_params,do_year,do_spp){  #growth arguments
+  fecundity <- f(v,u,rec_params,recs_per_area,do_spp)
+  survival <- S(u,muWS,surv_params,do_year,do_spp)
+  growth <- G(v,u,muWG,growth_params,do_year,do_spp)
+  rpois(length(u),fecundity)+rbinom(length(u),1,survival)*growth
 }
 
 ####
@@ -64,11 +80,17 @@ expand_W_matrix=function(v,u,W){
 #' @param do_year
 #' @param do_spp
 #' @param h
-make_K_matrix=function(v,muWG,muWS,rec_params,recs_per_area,growth_params,surv_params,do_year,do_spp,h) {
+make_K_matrix=function(v,muWG,muWS,rec_params,recs_per_area,growth_params,
+                       surv_params,do_year,do_spp,h,demo_stoch=FALSE) {
   muWG=expand_W_matrix(v,v,muWG)
   muWS=expand_W_matrix(v,v,muWS)
   
-  K.matrix=outer(v,v,make_K_values,muWG,muWS,rec_params,recs_per_area,growth_params,surv_params,do_year,do_spp)
+  if(demo_stoch==FALSE)
+    K.matrix=outer(v,v,make_K_values,muWG,muWS,rec_params,recs_per_area,
+                   growth_params,surv_params,do_year,do_spp)
+  if(demo_stoch==TRUE)
+    K.matrix=outer(v,v,make_K_values_demostoch,muWG,muWS,rec_params,recs_per_area,
+                   growth_params,surv_params,do_year,do_spp)
   return(h[do_spp]*K.matrix)
 }
 

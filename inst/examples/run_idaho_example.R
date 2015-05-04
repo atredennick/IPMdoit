@@ -103,7 +103,7 @@ for (t in 2:(tlimit)){
     if(cover[doSpp]>0){    
       # make kernels and project
       K_matrix=make_K_matrix(inits$v[[doSpp]],crowd_list$WmatG[[doSpp]],crowd_list$WmatS[[doSpp]],
-                             Rpars,recs_per_area,Gpars,Spars,doYear,doSpp,inits$h)	
+                             Rpars,recs_per_area,Gpars,Spars,doYear,doSpp,inits$h,demo_stoch=FALSE)	
       new.nt[[doSpp]]=K_matrix%*%nt[[doSpp]] 
       sizeSave[[doSpp]][,t]=new.nt[[doSpp]]/sum(new.nt[[doSpp]])  
     }    
