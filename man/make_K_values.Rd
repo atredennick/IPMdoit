@@ -28,6 +28,8 @@ make_K_values(v, u, muWG, muWS, rec_params, recs_per_area, growth_params,
 \item{do_year}{}
 
 \item{do_spp}{}
+
+\item{demographic_stochasticity}{}
 }
 \description{
 Make iteration matrix

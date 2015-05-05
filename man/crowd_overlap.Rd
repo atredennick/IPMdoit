@@ -5,7 +5,7 @@
 \title{Calculate crowding with genet overlap allowed}
 \usage{
 crowd_overlap(A, N, vt, h, alphaG, alphaS, WmatG, WmatS, n_spp, Ctot, Cr, b.r,
-  expv, r.U, v.r, v)
+  expv, r.U, v.r, v, cover)
 }
 \arguments{
 \item{A}{Area of the quadrat.}
@@ -37,6 +37,8 @@ crowd_overlap(A, N, vt, h, alphaG, alphaS, WmatG, WmatS, n_spp, Ctot, Cr, b.r,
 \item{v.r}{}
 
 \item{v}{}
+
+\item{cover}{}
 
 \item{nt}{Current population vector.}
 
