@@ -30,8 +30,9 @@
 #' @param v.r
 #' @param v
 #' @param cover
+#' @param nt
 crowd_overlap <- function(A, N, vt, h, alphaG, alphaS, WmatG, WmatS,
-                          n_spp, Ctot, Cr, b.r, expv, r.U, v.r, v, cover){
+                          n_spp, Ctot, Cr, b.r, expv, r.U, v.r, v, cover, nt){
   for(ii in 1:n_spp){ 
     # first do all overlap W's
     Xbar=cover*A/N       # multiply by A to get cover back in cm^2
