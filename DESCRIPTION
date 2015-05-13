@@ -1,9 +1,9 @@
 Package: IPMdoit
 Type: Package
-Title: What the package does (short line)
-Version: 1.0
+Title: Contains functions to implement Integral Projection Models for multispecies plant communities.
+Version: 0.1
 Date: 2015-01-29
-Author: Who wrote it
-Maintainer: Who to complain to <yourfault@somewhere.net>
-Description: More about what it does (maybe more than one line)
-License: What license is it under?
+Author: Andrew Tredennick
+Maintainer: Andrew Tredennick <atredenn@gmail.com>
+Description: more info to come...
+License: MIT
