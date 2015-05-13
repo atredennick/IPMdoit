@@ -4,7 +4,6 @@ In-house R package for multi-species integral projection models. Currently in de
 * Authors:
   - Andrew Tredennick
   - Peter Adler
-  - Stephen Ellner
 
 ## R package ##
 [![Build Status](https://travis-ci.org/atredennick/IPMdoit.svg?branch=master)](https://travis-ci.org/atredennick/IPMdoit)
