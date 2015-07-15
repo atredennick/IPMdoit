@@ -5,7 +5,7 @@
 \title{Make iteration matrix based only on mean crowding}
 \usage{
 make_K_matrix(v, muWG, muWS, rec_params, recs_per_area, growth_params,
-  surv_params, do_year, do_spp, h, demo_stoch = FALSE)
+  surv_params, do_year, do_spp, h, demo_stoch = FALSE, popv)
 }
 \arguments{
 \item{v}{}
