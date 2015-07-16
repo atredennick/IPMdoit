@@ -111,17 +111,17 @@ make.P.values <- function(v,u,muWG,muWS, #state variables
   S(u,muWS,Spars,doYear,doSpp)*G(v,u,muWG,Gpars,doYear,doSpp) 
 }
 
-make.P.matrix <- function(v,muWG,muWS,Gpars,Spars,doYear,doSpp,h) {
+make.P.matrix <- function(v,muWG,muWS,Gpars,Spars,doYear,doSpp) {
   muWG=expand_W_matrix(v,v,muWG)
   muWS=expand_W_matrix(v,v,muWS)
   
   P.matrix=outer(v,v,make.P.values,muWG,muWS,Gpars,Spars,doYear,doSpp)
-  return(h*P.matrix)
+  return(P.matrix)
 } 
 
-make.R.matrix=function(v,Rpars,rpa,doYear,doSpp,h) {
+make.R.matrix=function(v,Rpars,rpa,doYear,doSpp) {
   R.matrix=outer(v,v,make.R.values,Rpars,rpa,doYear,doSpp)
-  return(h*R.matrix)
+  return(R.matrix)
 }
 
 
@@ -164,26 +164,11 @@ expand_W_matrix=function(v,u,W){
 #' @param do_spp
 #' @param h
 make_K_matrix=function(v,muWG,muWS,rec_params,recs_per_area,growth_params,
-                       surv_params,do_year,do_spp,h,demo_stoch=FALSE,popv) {
-  if(demo_stoch==FALSE){
-    muWG=expand_W_matrix(v,v,muWG)
-    muWS=expand_W_matrix(v,v,muWS)
-    K.matrix=outer(v,v,make_K_values,muWG,muWS,rec_params,recs_per_area,
-                   growth_params,surv_params,do_year,do_spp)
-  }
-  
-  if(demo_stoch==TRUE){
-    P.matrix <- make.P.matrix(v,muWG,muWS,Gpars,Spars,doYear,doSpp,h=h)  
-    R.matrix <- make.R.matrix(v,Rpars,recs_per_area,doYear,doSpp,h=h)  
-    covmat <- get_cov(K=P.matrix)
-    pCont <- GenerateMultivariatePoisson(pD = length(popv),
-                                         samples = 1,
-                                         R = covmat,
-                                         lambda = P.matrix%*%popv)
-    rCont <- rpois(length(popv),R.matrix%*%popv)
-    K.matrix=list(pCont, rCont)
-  }
-  
+                       surv_params,do_year,do_spp,h) {
+  muWG=expand_W_matrix(v,v,muWG)
+  muWS=expand_W_matrix(v,v,muWS)
+  K.matrix=outer(v,v,make_K_values,muWG,muWS,rec_params,recs_per_area,
+                 growth_params,surv_params,do_year,do_spp)
 }
 
 
